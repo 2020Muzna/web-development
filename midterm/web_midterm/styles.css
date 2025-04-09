@@ -1,0 +1,66 @@
+/* Basic Styles */
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .navbar {
+    margin-bottom: 20px;
+  }
+  
+  /* Mega Menu Styles */
+  #previousTasksMenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #f8f9fa;
+    display: none;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+  
+  #previousTasksMenu .dropdown-item {
+    color: #333;
+    padding: 10px;
+    text-decoration: none;
+  }
+  
+  #previousTasksMenu .dropdown-item:hover {
+    background-color: #e2e6ea;
+  }
+  
+  #previousTasksLink {
+    cursor: pointer;
+  }
+  
+  /* Additional Styling for Mega Menu */
+  #megaMenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    background-color: #f8f9fa;
+    z-index: 100;
+    border: 1px solid #ddd;
+  }
+  
+  #megaMenu .dropdown-item {
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  #megaMenu .dropdown-item:hover {
+    background-color: #e2e6ea;
+  }
+  
+  /* Other styling adjustments */
+  .hero {
+    height: 500px;
+    background-color: #ddd;
+    text-align: center;
+    padding: 20px;
+  }
+  
