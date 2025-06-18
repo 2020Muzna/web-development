@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping List - PersonalRecipes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: #fdfdfd;
+    }
+
+    nav {
+      background-color: #2c3e50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 40px;
+    }
+
+    nav h1 {
+      color: white;
+      font-size: 30px;
+      margin: 0;
+    }
+
+    nav h1::before {
+      content: "🍽 ";
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 18px;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: orange;
+    }
+
+    .nav-links a.login-btn {
+      background-color: orange;
+      padding: 8px 20px;
+      border-radius: 5px;
+    }
+
+    .nav-links .search-input {
+      padding: 6px 10px;
+      border-radius: 4px;
+      border: none;
+      font-size: 16px;
+      margin-left: 25px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .container h2 {
+      color: #2c3e50;
+      margin-bottom: 25px;
+    }
+
+    input[type="text"] {
+      padding: 12px;
+      width: 65%;
+      font-size: 16px;
+      margin-right: 10px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: orange;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: darkorange;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 30px;
+    }
+
+    li {
+      background: #f8f8f8;
+      margin: 10px 0;
+      padding: 12px 18px;
+      font-size: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    li button {
+      background-color: #ff4d4d;
+      border-radius: 5px;
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+
+    .actions {
+      margin-top: 20px;
+    }
+
+    .actions button {
+      background-color: #3498db;
+    }
+
+    .actions button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <h1>PersonalRecipes</h1>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html" class="login-btn">Login</a>
+      <input type="text" class="search-input" placeholder="Search...">
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Your Shopping List 🛒</h2>
+    <input type="text" id="itemInput" placeholder="Add an item...">
+    <button onclick="addItem()">Add</button>
+
+    <ul id="shoppingList"></ul>
+
+    <div class="actions">
+      <button onclick="exportList()">📤 Export as Text</button>
+    </div>
+  </div>
+
+  <script>
+    let list = [];
+
+    function addItem() {
+      const input = document.getElementById("itemInput");
+      const item = input.value.trim();
+      if (item) {
+        list.push(item);
+        input.value = "";
+        updateList();
+      }
+    }
+
+    function removeItem(index) {
+      list.splice(index, 1);
+      updateList();
+    }
+
+    function updateList() {
+      const ul = document.getElementById("shoppingList");
+      ul.innerHTML = "";
+      list.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "Remove";
+        removeBtn.onclick = () => removeItem(index);
+        li.appendChild(removeBtn);
+
+        ul.appendChild(li);
+      });
+    }
+
+    function exportList() {
+      const blob = new Blob([list.join("\n")], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "shopping-list.txt";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    window.onload = function() {
+      const saved = localStorage.getItem("shoppingList");
+      if (saved) {
+        list = JSON.parse(saved);
+        updateList();
+      }
+    };
+  </script>
+
+</body>
+</html>
+
+
+
+

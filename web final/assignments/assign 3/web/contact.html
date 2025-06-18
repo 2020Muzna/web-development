@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Uni Worth - Contact Info</title>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.7.3/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.7.3/firebase-analytics.js"></script>
+  <script src="firebase-config.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    nav {
+      background-color: #2c3e50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 40px;
+    }
+
+    nav h1 {
+      color: white;
+      margin: 0;
+      font-size: 30px;
+    }
+
+    nav h1::before {
+      content: "🍽 ";
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 20px;
+    }
+
+
+    /* New Contact Info Section */
+    .contact-info {
+      max-width: 700px;
+      margin: 60px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.1);
+      color: #2c3e50;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .contact-info h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .contact-info p {
+      margin-bottom: 15px;
+    }
+
+    .contact-info a {
+      color: #f39c12;
+      text-decoration: none;
+    }
+
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <h1>PersonalRecipes</h1>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="about.html">About</a>
+      <input type="text" class="search-input" placeholder="Search...">
+    </div>
+  </nav>
+
+  <section class="contact-info">
+    <h2>Contact Us</h2>
+    <p><strong>Email:</strong> support@uniworthshop.com</p>
+    <p><strong>Phone:</strong> +92 (300) 123-4567</p>
+    <p><strong>Address:</strong> Uni Worth Flagship Store, MM Alam Road, Lahore, Pakistan</p>
+    <p><strong>Business Hours:</strong> Monday to Saturday, 11 AM to 9 PM</p>
+    <p>If you have any inquiries about our products, sizing, orders, or just need fashion advice — feel free to get in touch. Our support team is here to assist you.</p>
+    <p>Follow us on social media to stay updated with new arrivals, exclusive offers, and styling tips:</p>
+
+    <p>
+      <a href="https://facebook.com/personalrecipes" target="_blank">Facebook</a> | 
+      <a href="https://twitter.com/personalrecipes" target="_blank">Twitter</a> | 
+      <a href="https://instagram.com/personalrecipes" target="_blank">Instagram</a>
+    </p>
+  </section>
+
+</body>
+</html>

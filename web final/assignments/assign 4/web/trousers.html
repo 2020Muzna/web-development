@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trousers</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    nav {
+      background-color: #2c3e50; /* matching color with your first page's nav bar */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+    }
+
+    nav h1 {
+      color: white;
+      margin: 0;
+      font-size: 26px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 18px;
+    }
+
+    .search-bar-container {
+      position: relative;
+      margin-left: 25px;
+    }
+
+    .search-icon {
+      font-size: 22px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .search-input {
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: 0;
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      width: 180px;
+    }
+
+    /* Subcategory Styles */
+    .subcategories {
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .subcategories h2 {
+      font-size: 40px; /* made heading bigger */
+      margin-bottom: 30px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* 3 items in the first row */
+      gap: 30px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .category-card {
+      background-size: cover;
+      background-position: center;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .category-card:hover {
+      transform: scale(1.08);
+    }
+
+    .overlay {
+      background: rgba(0,0,0,0.6);
+      color: white;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      padding: 15px;
+      font-size: 20px;  /* made text bigger */
+    }
+
+    /* Responsive design for smaller screens */
+    @media (max-width: 900px) {
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 items per row */
+      }
+    }
+
+    @media (max-width: 600px) {
+      .category-grid {
+        grid-template-columns: 1fr; /* 1 item per row */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <h1>Uni Worrth</h1>
+    <div style="display: flex; align-items: center;">
+      <a href="index.html">Home</a>
+      <div class="search-bar-container">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search...">
+      </div>
+    </div>
+  </nav>
+
+  <!-- Subcategories Section: By Meal Type -->
+  <section class="subcategories">
+    <h2>Trousers</h2>
+    <div class="category-grid">
+      <a href="black trousers.html" class="category-card" style="background-image: url('images/trousers.jpg');">
+        <div class="overlay">Black Trousers</div>
+      </a>
+      <a href="blue trousers.html" class="category-card" style="background-image: url('images/trousers.jpg');">
+        <div class="overlay">Blue Trousers</div>
+      </a>
+      <a href="green trousers.html" class="category-card" style="background-image: url('images/trousers.jpg');">
+        <div class="overlay">Green Trousers</div>
+      </a>
+      <a href="maroon trousers.html" class="category-card" style="background-image: url('images/trousers.jpg');">
+        <div class="overlay">Maroon Trousers</div>
+      </a>
+      <a href="skin trousers.html" class="category-card" style="background-image: url('images/trousers.jpg');">
+        <div class="overlay">Skin Trousers</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- JavaScript for Search Bar -->
+  <script>
+    const searchIcon = document.querySelector('.search-icon');
+    const searchInput = document.getElementById('searchInput');
+
+    searchIcon.addEventListener('click', () => {
+      if (searchInput.style.display === 'none' || searchInput.style.display === '') {
+        searchInput.style.display = 'block';
+        searchInput.focus();
+      } else {
+        searchInput.style.display = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>
+

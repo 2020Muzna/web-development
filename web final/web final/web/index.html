@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Uni Worth</title>
+<!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    // Initialize Supabase
+    const SUPABASE_URL = 'https://lvjkzojdqnxivbtzsxqc.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx2amt6b2pkcW54aXZidHpzeHFjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NzExOTEsImV4cCI6MjA2MzI0NzE5MX0.l6OYEQ1NikNOISPTdoV0kG34QtRZLKDtzuGcH7h8VqI'; // Replace with your actual anon key
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    </script>
+  <style>
+    
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    nav {
+      background-color: #2c3e50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 40px;
+    }
+
+    nav h1 {
+      color: white;
+      margin: 0;
+      font-size: 30px;
+    }
+
+  
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 20px;
+    }
+
+    .nav-links a.login-btn {
+      background-color: orange;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 5px;
+    }
+
+    .search-input {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      width: 180px;
+      margin-left: 25px;
+    }
+
+    .hero {
+      background-image: url('images/banner.jpg');
+      background-size: cover;
+      background-position: top;
+      height: 650px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      animation: slideDown 2s ease forwards;
+    }
+
+    @keyframes slideDown {
+      from { background-position: top; }
+      to { background-position: bottom; }
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-content h2 {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    .hero-content p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .hero-content .btn {
+      background-color: orange;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .categories {
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .categories h2 {
+      font-size: 36px;
+      margin-bottom: 30px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .category-card {
+      background-size: cover;
+      background-position: center;
+      aspect-ratio: 1 / 1;
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .category-card:hover {
+      transform: scale(1.05);
+    }
+
+    .overlay {
+      background: rgba(0,0,0,0.5);
+      color: white;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .shopping-list {
+      background-color: #ffffff;
+      padding: 70px 20px;
+      min-height: 400px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .shopping-list-content {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .shopping-list-left h2 {
+      font-size: 60px;
+      color: #2c3e50;
+      margin: 0;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .shopping-list-left h2 span {
+      display: block;
+    }
+
+    .shopping-list-right {
+      max-width: 600px;
+      font-size: 22px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .shopping-list-button {
+      margin-top: 30px;
+    }
+
+    .shopping-list-button button {
+      padding: 15px 40px;
+      font-size: 20px;
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .shopping-list-button button:hover {
+      background-color: #1a242f;
+    }
+
+    .ingredient-search {
+      background-color: #f8f8f8;
+      background-image: url('images/light\ pattern.jpg');
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .footer-section {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .footer-section a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+
+    .footer-section a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <h1>Uni Worth</h1>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dresses.html">Dresses</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html" class="login-btn">Login</a>
+      <input type="text" class="search-input" placeholder="Search...">
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Find the Perfect Dresses For You</h2>
+      <p>Fashion · Comfort</p>
+      <a href="signup.html"><button class="btn">Get Started</button></a>
+    </div>
+  </section>
+
+  <section class="categories">
+    <h2>Explore Categories</h2>
+    <div class="category-grid">
+      <a href="polo shirts.html" class="category-card" style="background-image: url('images/polo shirts.jpg');">
+        <div class="overlay">Polo Shirts</div>
+      </a>
+      <a href="tees.html" class="category-card" style="background-image: url('images/tees.jpg');">
+        <div class="overlay">Tees</div>
+      </a>
+      <a href="trousers.html" class="category-card" style="background-image: url('images/trousers.jpg');">
+        <div class="overlay">Trousers</div>
+      </a>
+      <a href="formal shirts.html" class="category-card" style="background-image: url('images/formal\ shirts.jpg');">
+        <div class="overlay">Formal Shirts</div>
+      </a>
+      <a href="gym wear.html" class="category-card" style="background-image: url('images/gym\ wear.jpg');">
+        <div class="overlay">Gym Wear</div>
+      </a>
+    </div>
+  </section>
+
+  <section class="shopping-list">
+    <div class="shopping-list-content">
+      <div class="shopping-list-left">
+        <h2>
+          <span>Shopping</span>
+          <span>List</span>
+          <span>Generator</span>
+        </h2>
+      </div>
+      <div class="shopping-list-right">
+        <p>For You,</p>
+        <p>We’ll create a custom shopping list</p>
+        <p>with all the things you need!</p>
+      </div>
+    </div>
+    <div class="shopping-list-button">
+      <button onclick="window.location.href='shopping-list.html'">Generate Shopping List</button>
+    </div>
+  </section>
+
+  <!-- Ingredient Input Section -->
+<section class="ingredient-search">
+  <div style="max-width: 700px; margin: auto; padding: 40px; background: #fff; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.1);">
+    <h2 style="font-size: 32px; margin-bottom: 15px; color: #2c3e50;">Find your choices</h2>
+    <p style="font-size: 18px; color: #555; margin-bottom: 25px;">Enter</p>
+
+    <input 
+      type="text" 
+      id="ingredientInput" 
+      style="padding: 15px 20px; width: 100%; max-width: 100%; font-size: 16px; border-radius: 8px; border: 1px solid #ccc; transition: border 0.3s ease; margin-bottom: 20px;"
+      onfocus="this.style.borderColor='#f39c12'" 
+      onblur="this.style.borderColor='#ccc'"
+    >
+
+    <br>
+    <button 
+      onclick="findDresses()" 
+      style="padding: 14px 28px; background-color: #f39c12; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: background-color 0.3s ease;"
+      onmouseover="this.style.backgroundColor='#e67e22'" 
+      onmouseout="this.style.backgroundColor='#f39c12'"
+    >
+      🔍 Get Suggestions
+    </button>
+
+    <div id="recipeResults" style="margin-top: 30px; font-size: 18px; color: #2c3e50;">
+  <p>No recommendations yet</p>
+</div>
+
+</section>
+
+<!-- Feedback Section -->
+<section class="feedback-section" style="padding: 50px 20px; text-align: center; background-color: #FFFFFF;">
+  <h2 style="font-size: 32px; color: #2c3e50; margin-bottom: 20px;">We Value Your Feedback</h2>
+  <p style="font-size: 18px; margin-bottom: 30px;">Rate your experience and leave your thoughts below.</p>
+
+  <div style="max-width: 500px; margin: auto;">
+    <!-- Star Rating -->
+    <div id="star-rating" style="font-size: 30px; color: #ccc; margin-bottom: 15px; cursor: pointer;">
+      <span onclick="setRating(1)">★</span>
+      <span onclick="setRating(2)">★</span>
+      <span onclick="setRating(3)">★</span>
+      <span onclick="setRating(4)">★</span>
+      <span onclick="setRating(5)">★</span>
+    </div>
+
+    <!-- Feedback Input -->
+    <textarea id="feedbackText" rows="4" placeholder="Your feedback..." style="width: 100%; padding: 15px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px;"></textarea>
+
+    <!-- Submit Button -->
+    <button onclick="submitFeedback()" style="margin-top: 15px; background-color: orange; color: white; border: none; padding: 12px 25px; font-size: 16px; border-radius: 6px; cursor: pointer;">Submit Feedback</button>
+  </div>
+
+  <!-- Feedback Display -->
+  <div id="feedbackDisplay" style="margin-top: 40px; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+    <h3 style="color: #2c3e50;">Recent Feedback</h3>
+    <div id="feedbackList" style="margin-top: 15px;"></div>
+  </div>
+</section>
+
+
+
+  <div class="footer-section">
+    <h3>Quick Links</h3>
+    <p>
+      <a href="about.html">About Us</a> |
+      <a href="contact.html">Contact</a> |
+      <a href="privacy.html">Privacy Policy</a> |
+      <a href="terms.html">Terms of Service</a>
+    </p>
+    <p>Stay connected with us for updates!</p>
+  </div>
+
+  <footer>
+    &copy; 2025 Uni Worth. All rights reserved.
+  </footer>
+
+<div id="user-info"></div>
+<button onclick="logout()">Logout</button>
+
+<!-- Supabase Auth Check -->
+ <script>
+  // Supabase Auth Check on Page Load
+  document.addEventListener("DOMContentLoaded", async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session && session.user) {
+      document.getElementById('user-info').innerText = `Logged in as: ${session.user.email}`;
+    } else {
+      window.location.href = "login.html";
+    }
+  });
+
+  // Supabase Logout Function
+  async function logout() {
+    await supabase.auth.signOut();
+    window.location.href = "login.html";
+  }
+</script>
+
+<script>
+  // Recipe Finder Based on User Ingredients
+  function findDresses() {
+    const input = document.getElementById("keywordsInput").value;
+    const ingredients = input.toLowerCase().split(',').map(i => i.trim());
+
+  
+    const results = recipes.filter(recipe =>
+      dresses.keywords.every(ing => keywords.includes(ing))
+    );
+
+    const resultDiv = document.getElementById("dressesResults");
+    if (results.length > 0) {
+      resultDiv.innerHTML = "<h3>Dresses Suggestions:</h3>" +
+        results.map(r => `<p>${r.name}</p>`).join('');
+    } else {
+      resultDiv.innerHTML = "<p>No matching found. Try different keywords.</p>";
+    }
+  }
+</script>
+
+<script>
+  // Feedback System Logic
+  let currentRating = 0;
+
+  function setRating(stars) {
+    currentRating = stars;
+    const starsEl = document.querySelectorAll('#star-rating span');
+    starsEl.forEach((star, index) => {
+      star.style.color = index < stars ? 'gold' : '#ccc';
+    });
+  }
+
+  function submitFeedback() {
+    const feedbackText = document.getElementById('feedbackText').value.trim();
+    if (!feedbackText || currentRating === 0) {
+      alert("Please add both a rating and your feedback.");
+      return;
+    }
+
+    const feedbackItem = document.createElement('div');
+    feedbackItem.style.border = "1px solid #ddd";
+    feedbackItem.style.borderRadius = "8px";
+    feedbackItem.style.padding = "15px";
+    feedbackItem.style.marginBottom = "10px";
+    feedbackItem.innerHTML = `
+      <div style="color: gold; font-size: 20px;">${'★'.repeat(currentRating)}${'☆'.repeat(5 - currentRating)}</div>
+      <p style="margin: 8px 0; font-size: 16px; color: #333;">${feedbackText}</p>
+    `;
+
+    document.getElementById('feedbackList').prepend(feedbackItem);
+
+    // Clear form
+    document.getElementById('feedbackText').value = '';
+    setRating(0);
+  }
+</script>
+
+  
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Uni Worth</title>
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+
+    nav {
+      background-color: #2c3e50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+    }
+
+    nav h1 {
+      color: white;
+      margin: 0;
+      font-size: 24px;
+    }
+
+    nav h1::before {
+      content: "🍽 ";
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 16px;
+    }
+
+    nav a.login-btn {
+      background-color: orange;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 5px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 90vh;
+      background: url('images/login-bg.jpg') no-repeat center center/cover;
+    }
+
+    form {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    form h2 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    form input {
+      width: 100%;
+      padding: 12px 40px 12px 15px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .password-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+      color: #888;
+      user-select: none;
+    }
+
+    form button {
+      width: 100%;
+      background-color: orange;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+
+    form button:hover {
+      background-color: #e67e22;
+    }
+
+    form p {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    form p a {
+      color: #2c3e50;
+      text-decoration: none;
+    }
+
+    form p a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <h1>Uni Worth</h1>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="recipes.html">Dresses</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html" class="login-btn">Login</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <form id="loginForm">
+      <h2>Login to Uni Worth</h2>
+      <input type="email" id="loginEmail" placeholder="Email" required>
+
+      <div class="password-container">
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <span class="toggle-password" data-target="loginPassword">👁️</span>
+      </div>
+
+      <button type="submit">Login</button>
+      <p>Don’t have an account? <a href="signup.html">Sign Up</a></p>
+      <p><a href="forgotpassword.html">Forgot Password?</a></p>
+    </form>
+  </div>
+
+  <!-- Supabase logic & show/hide password -->
+  <script type="module">
+    import { supabase } from './supabase-config.js';
+
+    // Show/Hide password toggle
+    document.querySelectorAll('.toggle-password').forEach(icon => {
+      icon.addEventListener('click', () => {
+        const targetId = icon.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        if (input.type === "password") {
+          input.type = "text";
+          icon.textContent = "🙈";
+        } else {
+          input.type = "password";
+          icon.textContent = "👁️";
+        }
+      });
+    });
+
+    // Login logic
+    document.getElementById("loginForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        alert("Login failed: " + error.message);
+      } else {
+        window.location.href = "index.html";
+      }
+    });
+  </script>
+
+</body>
+</html>

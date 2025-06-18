@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reset Password | Uni Worth</title>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url('images/login-bg.jpg') no-repeat center center/cover;
+    }
+
+    form {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    form h2 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    form input {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    form button {
+      width: 100%;
+      background-color: orange;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+
+    form button:hover {
+      background-color: #e67e22;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form id="resetForm">
+      <h2>Reset Your Password</h2>
+      <input type="password" id="newPassword" placeholder="Enter new password" required />
+      <button type="submit">Update Password</button>
+    </form>
+  </div>
+
+ <script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const supabase = createClient(
+    'https://lvjkzojdqnxivbtzsxqc.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx2amt6b2pkcW54aXZidHpzeHFjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NzExOTEsImV4cCI6MjA2MzI0NzE5MX0.l6OYEQ1NikNOISPTdoV0kG34QtRZLKDtzuGcH7h8VqI'
+  );
+
+  document.getElementById("resetForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const newPassword = document.getElementById("newPassword").value;
+
+    // 👇 Ensure session is recovered before updating password
+    const {
+      data: { session },
+      error: sessionError
+    } = await supabase.auth.getSession();
+
+    if (sessionError || !session) {
+      alert("Session expired or invalid reset link. Please try again.");
+      return;
+    }
+
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+
+    if (error) {
+      alert("Error updating password: " + error.message);
+    } else {
+      alert("✅ Password updated successfully. Please login again.");
+      window.location.href = "login.html"; // 🔁 redirect to login page
+    }
+  });
+</script>
+
+
+</body>
+</html>
+
+
